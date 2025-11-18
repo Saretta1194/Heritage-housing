@@ -17,5 +17,5 @@ env/
 inputs/
 outputs/
 
-# Jupyter
+# Jupyterg
 .ipynb_checkpoints/
