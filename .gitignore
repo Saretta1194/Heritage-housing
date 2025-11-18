@@ -8,3 +8,14 @@ node_modules/
 .github/
 cloudinary_python.txt
 kaggle.json
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Data and Inputs
+inputs/
+outputs/
+
+# Jupyter
+.ipynb_checkpoints/
