@@ -233,9 +233,111 @@ elif page == "Price Predictor":
             """)
 
 elif page == "Hypothesis":
-    st.title("🔬 Project Hypothesis")
-    st.write("Page in development...")
+    st.title("🔬 Project Hypothesis & Validation")
+    
+    st.write("""
+    ## Project Hypotheses
+    
+    ### Hypothesis 1: Quality is the Primary Price Driver
+    **Statement:** Overall quality has the strongest correlation with sale price.
+    
+    **Validation:**
+    - Correlation coefficient: 0.79 ✅
+    - Feature importance: 20.02% (highest) ✅
+    - **Result:** CONFIRMED
+    
+    ### Hypothesis 2: House Size Matters
+    **Statement:** Living area and lot size significantly impact price.
+    
+    **Validation:**
+    - GrLivArea correlation: 0.71 ✅
+    - GrLivArea importance: 15.14% (second highest) ✅
+    - TotalBsmtSF correlation: 0.61 ✅
+    - **Result:** CONFIRMED
+    
+    ### Hypothesis 3: Age of House is Important
+    **Statement:** Year built influences price.
+    
+    **Validation:**
+    - YearBuilt correlation: 0.52 ✅
+    - YearBuilt importance: 8.47% ✅
+    - **Result:** CONFIRMED
+    
+    ### Hypothesis 4: Model Accuracy
+    **Statement:** We can predict house prices with R² ≥ 0.75.
+    
+    **Validation:**
+    - Test R² Score: 0.8897 ✅
+    - Target: 0.75 ✅
+    - **Result:** EXCEEDED TARGET
+    
+    ---
+    
+    ## Conclusion
+    All hypotheses were validated. The machine learning model successfully predicts house prices
+    with high accuracy, with overall quality being the most important factor.
+    """)
 
 elif page == "Model Performance":
-    st.title("📈 Model Performance")
-    st.write("Page in development...")
+    st.title("📈 Model Performance Metrics")
+    
+    st.write("""
+    ## Model Overview
+    **Algorithm:** Random Forest Regressor
+    **Training Data:** 1,168 houses (80%)
+    **Test Data:** 292 houses (20%)
+    """)
+    
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.metric(label="R² Score (Train)", value="0.9898")
+    
+    with col2:
+        st.metric(label="R² Score (Test)", value="0.8897")
+    
+    with col3:
+        st.metric(label="MAE", value="$17,200")
+    
+    with col4:
+        st.metric(label="RMSE", value="$29,091")
+    
+    st.write("---")
+    
+    st.write("""
+    ## Performance Interpretation
+    
+    - **R² Score:** 0.8897 means the model explains 88.97% of price variance ✅
+    - **MAE:** On average, predictions are off by $17,200
+    - **RMSE:** Root mean squared error of $29,091
+    - **Target Achievement:** R² ≥ 0.75 requirement **EXCEEDED** ✅
+    
+    ## Best Model Hyperparameters
+    """)
+    
+    params = {
+        'n_estimators': 200,
+        'max_depth': 20,
+        'min_samples_split': 5,
+        'min_samples_leaf': 2,
+        'max_features': 'sqrt',
+        'bootstrap': False
+    }
+    
+    for param, value in params.items():
+        st.write(f"- **{param}:** {value}")
+    
+    st.write("""
+    ## Top 5 Most Important Features
+    """)
+    
+    feature_importance_data = {
+        'Feature': ['OverallQual', 'GrLivArea', 'GarageArea', 'YearBuilt', 'TotalBsmtSF'],
+        'Importance (%)': [20.02, 15.14, 8.61, 8.47, 7.78]
+    }
+    
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.barh(feature_importance_data['Feature'], feature_importance_data['Importance (%)'], color='steelblue')
+    ax.set_xlabel('Importance (%)')
+    ax.set_title('Top 5 Most Important Features')
+    st.pyplot(fig)
