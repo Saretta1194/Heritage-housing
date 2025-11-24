@@ -12,10 +12,6 @@ kaggle.json
 venv/
 .venv/
 env/
-
-# Data and Inputs
-inputs/
-
 # Jupyterg
 .ipynb_checkpoints/
 venv/
