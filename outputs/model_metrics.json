@@ -1,0 +1,8 @@
+{
+    "Model": "Random Forest Regressor (Best)",
+    "R2_Train": "0.9897551315288181",
+    "R2_Test": "0.8896664365716196",
+    "MAE_Test": "17200.308610628563",
+    "RMSE_Test": "29091.13994151912",
+    "Best_Hyperparameters": "{'bootstrap': False, 'max_depth': 20, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'min_samples_split': 5, 'n_estimators': 200}"
+}

@@ -15,7 +15,6 @@ env/
 
 # Data and Inputs
 inputs/
-outputs/
 
 # Jupyterg
 .ipynb_checkpoints/
