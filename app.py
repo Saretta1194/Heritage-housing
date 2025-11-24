@@ -69,7 +69,41 @@ if page == "Home":
 # ========== PLACEHOLDER PAGES ==========
 elif page == "Correlation Study":
     st.title("📊 Correlation Analysis")
-    st.write("Page in development...")
+    
+    st.write("""
+    ## Feature Correlation with Sale Price
+    
+    This analysis shows which house attributes have the strongest relationship with sale price.
+    """)
+    
+    # Load correlation data
+    numeric_data = data.select_dtypes(include=[np.number])
+    correlation = numeric_data.corr()['SalePrice'].sort_values(ascending=False)
+    
+    # Display top correlations
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.write("### Top 10 Correlated Features")
+        top_10 = correlation.head(11)
+        st.dataframe(top_10, use_container_width=True)
+    
+    with col2:
+        st.write("### Visualization")
+        fig, ax = plt.subplots(figsize=(10, 6))
+        correlation.head(11).plot(kind='barh', ax=ax, color='steelblue')
+        ax.set_xlabel('Correlation Coefficient')
+        ax.set_title('Features Most Correlated with SalePrice')
+        st.pyplot(fig)
+    
+    st.write("""
+    ### Key Insights
+    - **OverallQual** (0.79): Overall quality is the strongest price driver
+    - **GrLivArea** (0.71): Ground living area is very important
+    - **GarageArea** (0.62): Garage size influences price
+    - **YearBuilt** (0.52): Newer houses tend to be more expensive
+    - **TotalBsmtSF** (0.61): Basement area matters
+    """)
 
 elif page == "Price Predictor":
     st.title("🔮 Price Predictor")
