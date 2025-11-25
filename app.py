@@ -141,121 +141,121 @@ except FileNotFoundError:
         'YearRemodAdd': [1961, 1976, 2002, 1970],
         'MasVnrArea': [0, 0, 162, 0]
     })
+
+# Tabs for different sections
+tab1, tab2 = st.tabs(["Inherited Houses", "Custom Prediction"])
+
+# ========== TAB 1: INHERITED HOUSES ==========
+with tab1:
+    st.write("### The 4 Inherited Houses")
     
-    # Tabs for different sections
-    tab1, tab2 = st.tabs(["Inherited Houses", "Custom Prediction"])
+    # Prepare inherited houses for prediction
+    from sklearn.preprocessing import LabelEncoder
+
+    X_inherited = inherited_df.copy()
+
+    # Remove the same sparse features that were removed during training
+    features_to_drop = ['EnclosedPorch', 'WoodDeckSF']
+    X_inherited = X_inherited.drop(columns=features_to_drop)
     
-    # ========== TAB 1: INHERITED HOUSES ==========
-    with tab1:
-        st.write("### The 4 Inherited Houses")
+    # Drop SalePrice if it exists
+    if 'SalePrice' in X_inherited.columns:
+        X_inherited = X_inherited.drop('SalePrice', axis=1)
+
+    # Encode categorical variables (same as training data)
+    categorical_cols = X_inherited.select_dtypes(include=['object']).columns
+    for col in categorical_cols:
+        le = LabelEncoder()
+        X_inherited[col] = le.fit_transform(X_inherited[col])
+
+    # Reorder columns to match training data
+    X_inherited = X_inherited[data.drop('SalePrice', axis=1).columns]
+    
+    predictions_inherited = model.predict(X_inherited)
+    
+    # Display inherited houses with predictions
+    inherited_results = pd.DataFrame({
+        'House': ['House 1', 'House 2', 'House 3', 'House 4'],
+        'Year Built': inherited_df['YearBuilt'].values,
+        'Overall Quality': inherited_df['OverallQual'].values,
+        'Living Area (sqft)': inherited_df['GrLivArea'].values,
+        'Predicted Price': predictions_inherited
+    })
+    
+    st.dataframe(inherited_results, use_container_width=True)
+    
+    # Total predicted price
+    total_price = predictions_inherited.sum()
+    
+    st.write("---")
+    st.metric(
+        label="Total Predicted Price for All 4 Houses",
+        value=f"${total_price:,.2f}",
+        delta=None
+    )
+    
+    st.write(f"""
+    ### Summary
+    - **House 1:** ${predictions_inherited[0]:,.2f}
+    - **House 2:** ${predictions_inherited[1]:,.2f}
+    - **House 3:** ${predictions_inherited[2]:,.2f}
+    - **House 4:** ${predictions_inherited[3]:,.2f}
+    - **TOTAL:** ${total_price:,.2f}
+    """)
+
+# ========== TAB 2: CUSTOM PREDICTION ==========
+with tab2:
+    st.write("### Predict Price for Any House")
+    
+    # Get feature names
+    feature_names = data.drop('SalePrice', axis=1).columns.tolist()
+    
+    # Create input widgets
+    st.write("#### Enter House Attributes")
+    
+    col1, col2 = st.columns(2)
+    
+    input_values = {}
+    
+    with col1:
+        input_values['OverallQual'] = st.slider('Overall Quality (1-10)', 1, 10, 6)
+        input_values['GrLivArea'] = st.number_input('Ground Living Area (sqft)', 300, 5000, 1500)
+        input_values['GarageArea'] = st.number_input('Garage Area (sqft)', 0, 2000, 500)
+        input_values['TotalBsmtSF'] = st.number_input('Total Basement Area (sqft)', 0, 5000, 1000)
+        input_values['YearBuilt'] = st.slider('Year Built', 1870, 2020, 2000)
+    
+    with col2:
+        input_values['1stFlrSF'] = st.number_input('1st Floor Area (sqft)', 300, 5000, 1200)
+        input_values['2ndFlrSF'] = st.number_input('2nd Floor Area (sqft)', 0, 3000, 0)
+        input_values['BedroomAbvGr'] = st.slider('Bedrooms', 0, 8, 3)
+        input_values['LotArea'] = st.number_input('Lot Area (sqft)', 1000, 200000, 10000)
+        input_values['LotFrontage'] = st.number_input('Lot Frontage (ft)', 0, 300, 70)
+    
+    # Add remaining features with default values
+    for feature in feature_names:
+        if feature not in input_values:
+            input_values[feature] = data[feature].median()
+    
+    # Predict button
+    if st.button("Predict Price", key="predict_button"):
+        # Prepare input for model
+        input_df = pd.DataFrame([input_values])
         
-        # Prepare inherited houses for prediction
-        from sklearn.preprocessing import LabelEncoder
-
-        X_inherited = inherited_df.copy()
-
-        # Remove the same sparse features that were removed during training
-        features_to_drop = ['EnclosedPorch', 'WoodDeckSF']
-        X_inherited = X_inherited.drop(columns=features_to_drop)
-        
-        # Drop SalePrice if it exists
-        if 'SalePrice' in X_inherited.columns:
-            X_inherited = X_inherited.drop('SalePrice', axis=1)
-
-        # Encode categorical variables (same as training data)
-        categorical_cols = X_inherited.select_dtypes(include=['object']).columns
-        for col in categorical_cols:
-            le = LabelEncoder()
-            X_inherited[col] = le.fit_transform(X_inherited[col])
-
         # Reorder columns to match training data
-        X_inherited = X_inherited[data.drop('SalePrice', axis=1).columns]
+        input_df = input_df[feature_names]
         
-        predictions_inherited = model.predict(X_inherited)
+        # Make prediction
+        predicted_price = model.predict(input_df)[0]
         
-        # Display inherited houses with predictions
-        inherited_results = pd.DataFrame({
-            'House': ['House 1', 'House 2', 'House 3', 'House 4'],
-            'Year Built': inherited_df['YearBuilt'].values,
-            'Overall Quality': inherited_df['OverallQual'].values,
-            'Living Area (sqft)': inherited_df['GrLivArea'].values,
-            'Predicted Price': predictions_inherited
-        })
-        
-        st.dataframe(inherited_results, use_container_width=True)
-        
-        # Total predicted price
-        total_price = predictions_inherited.sum()
-        
-        st.write("---")
-        st.metric(
-            label="Total Predicted Price for All 4 Houses",
-            value=f"${total_price:,.2f}",
-            delta=None
-        )
+        # Display result
+        st.success(f"### Predicted Price: ${predicted_price:,.2f}")
         
         st.write(f"""
-        ### Summary
-        - **House 1:** ${predictions_inherited[0]:,.2f}
-        - **House 2:** ${predictions_inherited[1]:,.2f}
-        - **House 3:** ${predictions_inherited[2]:,.2f}
-        - **House 4:** ${predictions_inherited[3]:,.2f}
-        - **TOTAL:** ${total_price:,.2f}
+        Based on the entered attributes, this house would sell for approximately **${predicted_price:,.2f}**.
+        
+        **Note:** This prediction is based on the Random Forest model trained on 1,460 houses in Ames, Iowa.
+        Actual prices may vary based on market conditions and other factors.
         """)
-    
-    # ========== TAB 2: CUSTOM PREDICTION ==========
-    with tab2:
-        st.write("### Predict Price for Any House")
-        
-        # Get feature names
-        feature_names = data.drop('SalePrice', axis=1).columns.tolist()
-        
-        # Create input widgets
-        st.write("#### Enter House Attributes")
-        
-        col1, col2 = st.columns(2)
-        
-        input_values = {}
-        
-        with col1:
-            input_values['OverallQual'] = st.slider('Overall Quality (1-10)', 1, 10, 6)
-            input_values['GrLivArea'] = st.number_input('Ground Living Area (sqft)', 300, 5000, 1500)
-            input_values['GarageArea'] = st.number_input('Garage Area (sqft)', 0, 2000, 500)
-            input_values['TotalBsmtSF'] = st.number_input('Total Basement Area (sqft)', 0, 5000, 1000)
-            input_values['YearBuilt'] = st.slider('Year Built', 1870, 2020, 2000)
-        
-        with col2:
-            input_values['1stFlrSF'] = st.number_input('1st Floor Area (sqft)', 300, 5000, 1200)
-            input_values['2ndFlrSF'] = st.number_input('2nd Floor Area (sqft)', 0, 3000, 0)
-            input_values['BedroomAbvGr'] = st.slider('Bedrooms', 0, 8, 3)
-            input_values['LotArea'] = st.number_input('Lot Area (sqft)', 1000, 200000, 10000)
-            input_values['LotFrontage'] = st.number_input('Lot Frontage (ft)', 0, 300, 70)
-        
-        # Add remaining features with default values
-        for feature in feature_names:
-            if feature not in input_values:
-                input_values[feature] = data[feature].median()
-        
-        # Predict button
-        if st.button("Predict Price", key="predict_button"):
-            # Prepare input for model
-            input_df = pd.DataFrame([input_values])
-            
-            # Reorder columns to match training data
-            input_df = input_df[feature_names]
-            
-            # Make prediction
-            predicted_price = model.predict(input_df)[0]
-            
-            # Display result
-            st.success(f"### Predicted Price: ${predicted_price:,.2f}")
-            
-            st.write(f"""
-            Based on the entered attributes, this house would sell for approximately **${predicted_price:,.2f}**.
-            
-            **Note:** This prediction is based on the Random Forest model trained on 1,460 houses in Ames, Iowa.
-            Actual prices may vary based on market conditions and other factors.
-            """)
 
 elif page == "Hypothesis":
     st.title("🔬 Project Hypothesis & Validation")
