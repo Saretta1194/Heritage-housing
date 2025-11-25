@@ -114,11 +114,11 @@ elif page == "Price Predictor":
     Enter house attributes below to predict the sale price.
     """)
     
-    # Load inherited houses (hardcoded data if file not found)
-    try:
-        inherited_df = pd.read_csv('inputs/datasets/inherited_houses.csv')
-    except FileNotFoundError:
-        # Hardcoded inherited houses data for Heroku
+# Load inherited houses (hardcoded data if file not found)
+try:
+    inherited_df = pd.read_csv('inputs/datasets/inherited_houses.csv')
+except FileNotFoundError:
+    # Hardcoded inherited houses data for Heroku
     inherited_df = pd.DataFrame({
         'OverallQual': [5, 6, 5, 6],
         'GrLivArea': [896, 1329, 1629, 1604],
