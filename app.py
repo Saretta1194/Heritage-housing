@@ -114,8 +114,33 @@ elif page == "Price Predictor":
     Enter house attributes below to predict the sale price.
     """)
     
-    # Load inherited houses
-    inherited_df = pd.read_csv('inputs/datasets/inherited_houses.csv')
+    # Load inherited houses (hardcoded data if file not found)
+    try:
+        inherited_df = pd.read_csv('inputs/datasets/inherited_houses.csv')
+    except FileNotFoundError:
+        # Hardcoded inherited houses data for Heroku
+    inherited_df = pd.DataFrame({
+        'OverallQual': [5, 6, 5, 6],
+        'GrLivArea': [896, 1329, 1629, 1604],
+        'YearBuilt': [1961, 1958, 1997, 1998],
+        'GarageArea': [0, 460, 576, 576],
+        'TotalBsmtSF': [0, 1262, 1629, 1604],
+        '1stFlrSF': [896, 1262, 928, 926],
+        '2ndFlrSF': [0, 0, 701, 678],
+        'BedroomAbvGr': [3, 3, 3, 3],
+        'LotArea': [9600, 9600, 11250, 11250],
+        'LotFrontage': [80, 80, 68, 60],
+        'BsmtExposure': [1, 1, 2, 3],
+        'BsmtFinType1': [0, 0, 2, 2],
+        'BsmtUnfSF': [0, 284, 434, 540],
+        'GarageFinish': [2, 1, 1, 2],
+        'GarageYrBlt': [1980, 1976, 2001, 1998],
+        'KitchenQual': [2, 3, 2, 2],
+        'OpenPorchSF': [0, 0, 42, 35],
+        'OverallCond': [5, 8, 5, 5],
+        'YearRemodAdd': [1961, 1976, 2002, 1970],
+        'MasVnrArea': [0, 0, 162, 0]
+    })
     
     # Tabs for different sections
     tab1, tab2 = st.tabs(["Inherited Houses", "Custom Prediction"])
