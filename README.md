@@ -332,8 +332,7 @@ heroku create heritage-housing-predictor
 git push heroku main
 ```
 
-**Deployed App:** [Link will be updated after deployment]
-
+**Live Dashboard:** https://heritage-housing-price-4311f0b65bc6.herokuapp.com/
 ---
 
 ## Key Learnings & Conclusions
