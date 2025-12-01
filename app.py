@@ -39,6 +39,103 @@ page = st.sidebar.radio(
     ["Home", "Correlation Study", "Price Predictor", "Hypothesis", "Model Performance"]
 )
 if page == "Home":
+    st.title("🏠 Heritage Housing Price Predictor")
+    
+    # Header con colore
+    st.markdown("""
+    <style>
+    .header-box {
+        background-color: #1f77b4;
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+    }
+    </style>
+    <div class="header-box">
+        <h2>📊 Intelligent House Price Prediction System</h2>
+        <p>Predict house prices in Ames, Iowa using Machine Learning</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.write("")
+    
+    # Business Requirements con icone
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.info("""
+        ### 📈 BR1: Correlation Analysis
+        Discover which house attributes correlate most with sale price
+        """)
+    
+    with col2:
+        st.info("""
+        ### 🎯 BR2: Price Prediction
+        Predict sale prices for any house in Ames, Iowa
+        """)
+    
+    st.write("")
+    
+    # Dataset Statistics
+    st.markdown("### 📊 Dataset Overview")
+    
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.metric(label="🏘️ Total Houses", value="1,460")
+    
+    with col2:
+        st.metric(label="📐 Features", value="21")
+    
+    with col3:
+        st.metric(label="💰 Avg Price", value="$180,921")
+    
+    with col4:
+        st.metric(label="📍 Location", value="Ames, Iowa")
+    
+    st.write("")
+    
+    # Model Performance Highlight
+    st.markdown("### 🤖 Model Performance")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.success("""
+        ✅ **R² Score: 0.8897**
+        
+        Target: 0.75
+        """)
+    
+    with col2:
+        st.metric(label="Mean Absolute Error", value="$17,200")
+    
+    with col3:
+        st.metric(label="RMSE", value="$29,091")
+    
+    st.write("")
+    
+    # Instructions
+    st.markdown("### 🚀 How to Use")
+    
+    st.write("""
+    1. **Correlation Study** - Explore which features drive house prices
+    2. **Price Predictor** - Get predictions for any house
+    3. **Hypothesis** - See our data-driven hypotheses
+    4. **Model Performance** - Detailed metrics and feature importance
+    
+    👈 Select a page from the **menu on the left**
+    """)
+    
+    st.write("")
+    
+    # Footer
+    st.markdown("""
+    ---
+    **Live Dashboard:** Heritage Housing Price Predictor  
+    **Model:** Random Forest Regressor (576 hyperparameters tuned)  
+    **Status:** ✅ Production Ready
+    """)
     st.markdown("""
     <style>
     .main-header {
