@@ -39,152 +39,163 @@ page = st.sidebar.radio(
     ["Home", "Correlation Study", "Price Predictor", "Hypothesis", "Model Performance"]
 )
 if page == "Home":
-    # Custom CSS per effetti WOW
+    # Custom CSS 
     st.markdown("""
     <style>
-    .main-header {
+    .header-gradient {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 40px;
+        padding: 50px;
         border-radius: 15px;
         color: white;
         text-align: center;
-        margin-bottom: 30px;
-        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-        animation: fadeIn 1s ease-in;
+        margin-bottom: 40px;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
     }
     
-    .main-header h1 {
+    .header-gradient h1 {
         font-size: 3em;
         font-weight: bold;
         margin: 0;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
     }
     
-    .main-header p {
+    .header-gradient p {
         font-size: 1.3em;
         margin: 10px 0 0 0;
-        opacity: 0.9;
+        opacity: 0.95;
     }
     
-    .metric-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 20px;
-        border-radius: 10px;
-        color: white;
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin: 40px 0;
+    }
+    
+    .stat-card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
         text-align: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        border-top: 5px solid #667eea;
         transition: transform 0.3s ease;
     }
     
-    .metric-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    .stat-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.15);
     }
     
-    .metric-value {
+    .stat-number {
         font-size: 2.5em;
         font-weight: bold;
-        margin: 10px 0;
+        color: #667eea;
+        margin: 15px 0;
     }
     
-    .metric-label {
-        font-size: 1em;
-        opacity: 0.9;
+    .stat-label {
+        font-size: 0.95em;
+        color: #666;
+        font-weight: 500;
     }
     
     .requirement-box {
         background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        padding: 25px;
-        border-radius: 10px;
+        padding: 35px;
+        border-radius: 15px;
         color: white;
-        margin: 15px 0;
-        box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);
+        margin: 20px 0;
+        box-shadow: 0 8px 25px rgba(245, 87, 108, 0.3);
     }
     
     .requirement-box h3 {
         margin-top: 0;
-        font-size: 1.3em;
+        font-size: 1.5em;
+        font-weight: bold;
     }
     
     .requirement-box p {
-        margin: 10px 0;
-        opacity: 0.95;
+        margin: 12px 0;
+        font-size: 1.05em;
+        line-height: 1.6;
     }
     
     .insight-box {
         background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        padding: 20px;
-        border-radius: 10px;
+        padding: 30px;
+        border-radius: 15px;
         color: white;
-        margin: 15px 0;
-        border-left: 5px solid #00f2fe;
+        margin: 20px 0;
+        border-left: 6px solid #00f2fe;
+        box-shadow: 0 8px 20px rgba(79, 172, 254, 0.3);
     }
     
     .insight-box h4 {
         margin-top: 0;
         font-weight: bold;
+        font-size: 1.3em;
+    }
+    
+    .insight-box p {
+        margin: 8px 0;
+        line-height: 1.7;
     }
     
     .success-badge {
         background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-        padding: 15px 25px;
-        border-radius: 25px;
+        padding: 40px;
+        border-radius: 20px;
         color: white;
-        display: inline-block;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(17, 153, 142, 0.4);
+        margin: 20px 0;
+    }
+    
+    .success-badge h2 {
+        margin: 0;
+        font-size: 3em;
         font-weight: bold;
+    }
+    
+    .success-badge p {
         margin: 10px 0;
-        box-shadow: 0 4px 12px rgba(17, 153, 142, 0.3);
+        font-size: 1.2em;
     }
     
     .feature-list {
         background: #f8f9fa;
-        padding: 20px;
-        border-radius: 10px;
-        border-left: 5px solid #667eea;
+        padding: 30px;
+        border-radius: 15px;
+        border-left: 6px solid #667eea;
     }
     
     .feature-list li {
-        margin: 10px 0;
-        font-size: 1.05em;
+        margin: 15px 0;
+        font-size: 1.1em;
+        line-height: 1.6;
     }
     
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .stats-container {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 15px;
-        margin: 30px 0;
-    }
-    
-    .stat-item {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
+    .footer-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 40px;
+        border-radius: 15px;
         text-align: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        border-top: 4px solid #667eea;
+        margin-top: 50px;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
     }
     
-    .stat-number {
-        font-size: 2em;
-        font-weight: bold;
-        color: #667eea;
-        margin: 10px 0;
-    }
-    
-    .stat-text {
-        font-size: 0.9em;
-        color: #666;
+    .footer-section p {
+        margin: 8px 0;
+        font-size: 1.05em;
+        line-height: 1.8;
     }
     
     </style>
     
-    <!-- MAIN HEADER -->
-    <div class="main-header">
+    <!-- HEADER SPETTACOLARE -->
+    <div class="header-gradient">
         <h1>🏠 Heritage Housing Price Predictor</h1>
         <p>🤖 AI-Powered Real Estate Valuation System</p>
     </div>
@@ -194,26 +205,26 @@ if page == "Home":
     
     # ========== STATISTICS CARDS ==========
     st.markdown("""
-    <div class="stats-container">
-        <div class="stat-item">
-            <div style="font-size: 2.5em;">📊</div>
+    <div class="stats-row">
+        <div class="stat-card">
+            <div style="font-size: 3em;">📊</div>
             <div class="stat-number">1,460</div>
-            <div class="stat-text">Houses Analyzed</div>
+            <div class="stat-label">Houses Analyzed</div>
         </div>
-        <div class="stat-item">
-            <div style="font-size: 2.5em;">📐</div>
+        <div class="stat-card">
+            <div style="font-size: 3em;">📐</div>
             <div class="stat-number">21</div>
-            <div class="stat-text">Features Used</div>
+            <div class="stat-label">Features Used</div>
         </div>
-        <div class="stat-item">
-            <div style="font-size: 2.5em;">💰</div>
+        <div class="stat-card">
+            <div style="font-size: 3em;">💰</div>
             <div class="stat-number">$180K</div>
-            <div class="stat-text">Average Price</div>
+            <div class="stat-label">Average Price</div>
         </div>
-        <div class="stat-item">
-            <div style="font-size: 2.5em;">🎯</div>
+        <div class="stat-card">
+            <div style="font-size: 3em;">🎯</div>
             <div class="stat-number">89%</div>
-            <div class="stat-text">Model Accuracy</div>
+            <div class="stat-label">Model Accuracy</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -228,7 +239,7 @@ if page == "Home":
         <div class="requirement-box">
         <h3>📈 BR1: Correlation Analysis</h3>
         <p>Discover which house attributes correlate most with sale price. Understand the key value drivers in the Ames real estate market.</p>
-        <p><strong>Outcome:</strong> Data-driven insights for property valuation</p>
+        <p><strong>✓ Outcome:</strong> Data-driven insights for property valuation</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -237,10 +248,11 @@ if page == "Home":
         <div class="requirement-box">
         <h3>🎯 BR2: Price Prediction</h3>
         <p>Predict sale prices for any house in Ames, Iowa with high accuracy. Use machine learning for confident valuations.</p>
-        <p><strong>Outcome:</strong> Accurate price estimates for inherited properties</p>
+        <p><strong>✓ Outcome:</strong> Accurate price estimates for inherited properties</p>
         </div>
         """, unsafe_allow_html=True)
     
+    st.write("")
     st.write("")
     
     # ========== MODEL PERFORMANCE ==========
@@ -250,46 +262,48 @@ if page == "Home":
     
     with col1:
         st.markdown("""
-        <div class="success-badge" style="text-align: center; width: 100%; padding: 20px;">
-        <div style="font-size: 2.5em; margin: 0;">✅</div>
-        <div style="font-size: 1.5em; margin: 10px 0;">R² = 0.8897</div>
-        <div style="font-size: 0.9em; opacity: 0.9;">Target: 0.75</div>
-        <div style="font-size: 1.1em; margin-top: 10px; font-weight: bold;">EXCEEDED! 🎯</div>
+        <div class="success-badge">
+        <h2>✅ 0.8897</h2>
+        <p>R² Score</p>
+        <p style="font-size: 0.9em; opacity: 0.9;">Target: 0.75</p>
+        <p style="font-size: 1.2em; font-weight: bold; margin-top: 10px;">EXCEEDED! 🎯</p>
         </div>
         """, unsafe_allow_html=True)
     
     with col2:
         st.markdown("""
         <div class="insight-box" style="text-align: center;">
-        <div style="font-size: 2em; margin: 0;">💵</div>
-        <div style="font-size: 1.3em; font-weight: bold; margin: 10px 0;">$17,200</div>
-        <div style="font-size: 0.9em;">Mean Absolute Error</div>
+        <div style="font-size: 2.5em; margin: 0;">💵</div>
+        <div style="font-size: 2em; font-weight: bold; margin: 15px 0;">$17,200</div>
+        <div style="font-size: 1em;">Mean Absolute Error</div>
         </div>
         """, unsafe_allow_html=True)
     
     with col3:
         st.markdown("""
         <div class="insight-box" style="text-align: center;">
-        <div style="font-size: 2em; margin: 0;">📊</div>
-        <div style="font-size: 1.3em; font-weight: bold; margin: 10px 0;">$29,091</div>
-        <div style="font-size: 0.9em;">RMSE Error</div>
+        <div style="font-size: 2.5em; margin: 0;">📊</div>
+        <div style="font-size: 2em; font-weight: bold; margin: 15px 0;">$29,091</div>
+        <div style="font-size: 1em;">RMSE Error</div>
         </div>
         """, unsafe_allow_html=True)
     
+    st.write("")
     st.write("")
     
     # ========== TOP FEATURES ==========
     st.markdown("""
     <div class="insight-box">
     <h4>🏆 Top 5 Price Drivers</h4>
-    <p><strong>1. Overall Quality</strong> (20% importance) - Quality is paramount!</p>
-    <p><strong>2. Living Area</strong> (15% importance) - Size matters</p>
-    <p><strong>3. Garage Area</strong> (9% importance) - Parking adds value</p>
-    <p><strong>4. Year Built</strong> (8% importance) - Newer is better</p>
-    <p><strong>5. Basement Area</strong> (8% importance) - Extra space is valuable</p>
+    <p><strong>1. Overall Quality (20%)</strong> - Quality is paramount!</p>
+    <p><strong>2. Living Area (15%)</strong> - Size matters</p>
+    <p><strong>3. Garage Area (9%)</strong> - Parking adds value</p>
+    <p><strong>4. Year Built (8%)</strong> - Newer is better</p>
+    <p><strong>5. Basement Area (8%)</strong> - Extra space is valuable</p>
     </div>
     """, unsafe_allow_html=True)
     
+    st.write("")
     st.write("")
     
     # ========== HOW TO USE ==========
@@ -307,15 +321,15 @@ if page == "Home":
     """, unsafe_allow_html=True)
     
     st.write("")
+    st.write("")
     
     # ========== FOOTER ==========
     st.markdown("""
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                color: white; padding: 20px; border-radius: 10px; text-align: center; margin-top: 40px;">
-    <p style="margin: 5px 0;"><strong>🤖 Machine Learning Model:</strong> Random Forest Regressor</p>
-    <p style="margin: 5px 0;"><strong>⚙️ Optimization:</strong> 576 Hyperparameters Tuned with GridSearchCV</p>
-    <p style="margin: 5px 0;"><strong>✅ Status:</strong> Production Ready | Live Deployment</p>
-    <p style="margin: 10px 0; font-size: 0.9em; opacity: 0.9;">Heritage Housing Price Predictor | Powered by ML & Data Science</p>
+    <div class="footer-section">
+    <p><strong>🤖 Machine Learning Model:</strong> Random Forest Regressor</p>
+    <p><strong>⚙️ Optimization:</strong> 576 Hyperparameters Tuned with GridSearchCV</p>
+    <p><strong>✅ Status:</strong> Production Ready | Live Deployment</p>
+    <p style="font-size: 0.95em; opacity: 0.9; margin-top: 20px;">Heritage Housing Price Predictor | Powered by ML & Data Science</p>
     </div>
     """, unsafe_allow_html=True)
 
