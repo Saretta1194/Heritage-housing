@@ -1,0 +1,23 @@
+{
+    "version": "v3_final",
+    "timestamp": "2025-12-01T22:29:40.361984",
+    "algorithm": "Random Forest Regressor",
+    "r2_train": 0.9897551315288181,
+    "r2_test": 0.8896664365716196,
+    "mae_test": 17200.308610628563,
+    "rmse_test": 29091.13994151912,
+    "best_hyperparameters": {
+        "bootstrap": false,
+        "max_depth": 20,
+        "max_features": "sqrt",
+        "min_samples_leaf": 2,
+        "min_samples_split": 5,
+        "n_estimators": 200
+    },
+    "cv_score": 0.8530373865852698,
+    "total_features": 21,
+    "training_samples": 1168,
+    "test_samples": 292,
+    "baseline_r2_test": 0.8935910739005719,
+    "improvement_percentage": -0.4391983585759279
+}
