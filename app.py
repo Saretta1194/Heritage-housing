@@ -17,13 +17,17 @@ sns.set_style("whitegrid")
 plt.rcParams['figure.figsize'] = (12, 6)
 
 # Load data
+
+
 @st.cache_resource
 def load_model():
     return joblib.load('outputs/best_model.pkl')
 
+
 @st.cache_data
 def load_data():
     return pd.read_csv('outputs/X_y_cleaned.csv')
+
 
 model = load_model()
 data = load_data()
@@ -34,37 +38,286 @@ page = st.sidebar.radio(
     "Select Page",
     ["Home", "Correlation Study", "Price Predictor", "Hypothesis", "Model Performance"]
 )
-
-# ========== PAGE 1: HOME ==========
 if page == "Home":
-    st.title("🏠 Heritage Housing Price Predictor")
+    # Custom CSS per effetti WOW
+    st.markdown("""
+    <style>
+    .main-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 40px;
+        border-radius: 15px;
+        color: white;
+        text-align: center;
+        margin-bottom: 30px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        animation: fadeIn 1s ease-in;
+    }
     
-    st.write("""
-    ## Project Overview
+    .main-header h1 {
+        font-size: 3em;
+        font-weight: bold;
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
     
-    This dashboard helps predict house prices in Ames, Iowa based on property attributes.
+    .main-header p {
+        font-size: 1.3em;
+        margin: 10px 0 0 0;
+        opacity: 0.9;
+    }
     
-    ### Business Requirements
-    - **BR1:** Analyze how house attributes correlate with sale prices
-    - **BR2:** Predict sale prices for 4 inherited houses and any other house in Ames, Iowa
+    .metric-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transition: transform 0.3s ease;
+    }
     
-    ### Dataset Information
-    - **Total Houses:** 1,460
-    - **Features:** 21 (after cleaning)
-    - **Target Variable:** SalePrice
-    - **Price Range:** $34,900 - $755,000
-    - **Average Price:** $180,921
+    .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
     
-    ### Model Performance
-    - **Algorithm:** Random Forest Regressor
-    - **R² Score (Test):** 0.8897 ✅
-    - **MAE:** $17,200
-    - **RMSE:** $29,091
+    .metric-value {
+        font-size: 2.5em;
+        font-weight: bold;
+        margin: 10px 0;
+    }
     
-    ---
+    .metric-label {
+        font-size: 1em;
+        opacity: 0.9;
+    }
     
-    **Use the navigation menu on the left to explore the analysis and make predictions!**
-    """)
+    .requirement-box {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        padding: 25px;
+        border-radius: 10px;
+        color: white;
+        margin: 15px 0;
+        box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);
+    }
+    
+    .requirement-box h3 {
+        margin-top: 0;
+        font-size: 1.3em;
+    }
+    
+    .requirement-box p {
+        margin: 10px 0;
+        opacity: 0.95;
+    }
+    
+    .insight-box {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+        margin: 15px 0;
+        border-left: 5px solid #00f2fe;
+    }
+    
+    .insight-box h4 {
+        margin-top: 0;
+        font-weight: bold;
+    }
+    
+    .success-badge {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        padding: 15px 25px;
+        border-radius: 25px;
+        color: white;
+        display: inline-block;
+        font-weight: bold;
+        margin: 10px 0;
+        box-shadow: 0 4px 12px rgba(17, 153, 142, 0.3);
+    }
+    
+    .feature-list {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 5px solid #667eea;
+    }
+    
+    .feature-list li {
+        margin: 10px 0;
+        font-size: 1.05em;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin: 30px 0;
+    }
+    
+    .stat-item {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-top: 4px solid #667eea;
+    }
+    
+    .stat-number {
+        font-size: 2em;
+        font-weight: bold;
+        color: #667eea;
+        margin: 10px 0;
+    }
+    
+    .stat-text {
+        font-size: 0.9em;
+        color: #666;
+    }
+    
+    </style>
+    
+    <!-- MAIN HEADER -->
+    <div class="main-header">
+        <h1>🏠 Heritage Housing Price Predictor</h1>
+        <p>🤖 AI-Powered Real Estate Valuation System</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.write("")
+    
+    # ========== STATISTICS CARDS ==========
+    st.markdown("""
+    <div class="stats-container">
+        <div class="stat-item">
+            <div style="font-size: 2.5em;">📊</div>
+            <div class="stat-number">1,460</div>
+            <div class="stat-text">Houses Analyzed</div>
+        </div>
+        <div class="stat-item">
+            <div style="font-size: 2.5em;">📐</div>
+            <div class="stat-number">21</div>
+            <div class="stat-text">Features Used</div>
+        </div>
+        <div class="stat-item">
+            <div style="font-size: 2.5em;">💰</div>
+            <div class="stat-number">$180K</div>
+            <div class="stat-text">Average Price</div>
+        </div>
+        <div class="stat-item">
+            <div style="font-size: 2.5em;">🎯</div>
+            <div class="stat-number">89%</div>
+            <div class="stat-text">Model Accuracy</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.write("")
+    
+    # ========== BUSINESS REQUIREMENTS ==========
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("""
+        <div class="requirement-box">
+        <h3>📈 BR1: Correlation Analysis</h3>
+        <p>Discover which house attributes correlate most with sale price. Understand the key value drivers in the Ames real estate market.</p>
+        <p><strong>Outcome:</strong> Data-driven insights for property valuation</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+        <div class="requirement-box">
+        <h3>🎯 BR2: Price Prediction</h3>
+        <p>Predict sale prices for any house in Ames, Iowa with high accuracy. Use machine learning for confident valuations.</p>
+        <p><strong>Outcome:</strong> Accurate price estimates for inherited properties</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.write("")
+    
+    # ========== MODEL PERFORMANCE ==========
+    st.markdown("### 🚀 Model Performance Highlights")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("""
+        <div class="success-badge" style="text-align: center; width: 100%; padding: 20px;">
+        <div style="font-size: 2.5em; margin: 0;">✅</div>
+        <div style="font-size: 1.5em; margin: 10px 0;">R² = 0.8897</div>
+        <div style="font-size: 0.9em; opacity: 0.9;">Target: 0.75</div>
+        <div style="font-size: 1.1em; margin-top: 10px; font-weight: bold;">EXCEEDED! 🎯</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+        <div class="insight-box" style="text-align: center;">
+        <div style="font-size: 2em; margin: 0;">💵</div>
+        <div style="font-size: 1.3em; font-weight: bold; margin: 10px 0;">$17,200</div>
+        <div style="font-size: 0.9em;">Mean Absolute Error</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown("""
+        <div class="insight-box" style="text-align: center;">
+        <div style="font-size: 2em; margin: 0;">📊</div>
+        <div style="font-size: 1.3em; font-weight: bold; margin: 10px 0;">$29,091</div>
+        <div style="font-size: 0.9em;">RMSE Error</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.write("")
+    
+    # ========== TOP FEATURES ==========
+    st.markdown("""
+    <div class="insight-box">
+    <h4>🏆 Top 5 Price Drivers</h4>
+    <p><strong>1. Overall Quality</strong> (20% importance) - Quality is paramount!</p>
+    <p><strong>2. Living Area</strong> (15% importance) - Size matters</p>
+    <p><strong>3. Garage Area</strong> (9% importance) - Parking adds value</p>
+    <p><strong>4. Year Built</strong> (8% importance) - Newer is better</p>
+    <p><strong>5. Basement Area</strong> (8% importance) - Extra space is valuable</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.write("")
+    
+    # ========== HOW TO USE ==========
+    st.markdown("### 📍 How to Use This Dashboard")
+    
+    st.markdown("""
+    <div class="feature-list">
+    <ol>
+        <li><strong>Correlation Study</strong> 📊 - Explore which features drive house prices</li>
+        <li><strong>Price Predictor</strong> 🔮 - Get predictions for inherited houses or custom properties</li>
+        <li><strong>Hypothesis</strong> 🔬 - Review our data-driven hypotheses and validation</li>
+        <li><strong>Model Performance</strong> 📈 - Detailed metrics and feature importance analysis</li>
+    </ol>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.write("")
+    
+    # ========== FOOTER ==========
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                color: white; padding: 20px; border-radius: 10px; text-align: center; margin-top: 40px;">
+    <p style="margin: 5px 0;"><strong>🤖 Machine Learning Model:</strong> Random Forest Regressor</p>
+    <p style="margin: 5px 0;"><strong>⚙️ Optimization:</strong> 576 Hyperparameters Tuned with GridSearchCV</p>
+    <p style="margin: 5px 0;"><strong>✅ Status:</strong> Production Ready | Live Deployment</p>
+    <p style="margin: 10px 0; font-size: 0.9em; opacity: 0.9;">Heritage Housing Price Predictor | Powered by ML & Data Science</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 # ========== PAGE 2: CORRELATION STUDY ==========
 elif page == "Correlation Study":
