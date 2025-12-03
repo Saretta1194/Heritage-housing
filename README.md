@@ -4,7 +4,7 @@
 
 This project builds a machine learning application to predict house prices in Ames, Iowa. The solution combines data analysis, feature engineering, and a trained Random Forest model deployed via a Streamlit web dashboard.
 
-**Live Demo:** https://heritage-housing-price-4311f0b65bc6.herokuapp.com/
+**Live Demo:** https://heritage-housing-price-7ed9ab08529f.herokuapp.com/
 
 ---
 
@@ -663,7 +663,12 @@ heritage-housing/
 │       └── house-metadata.txt                # Feature descriptions
 │
 └── outputs/
-    ├── best_model.pkl                        # Trained Random Forest model
+    ├── v3_final/                             # Model versioning folder
+    │   ├── best_model.pkl                    # Trained model (v3)
+    │   ├── model_metrics.json                # Performance metrics (v3)
+    │   └── feature_importance.csv            # Feature importance (v3)
+    │
+    ├── best_model.pkl                        # Trained Random Forest model (copy for app)
     ├── X.csv                                 # Features
     ├── y.csv                                 # Target variable
     ├── X_y_cleaned.csv                       # Complete cleaned dataset
@@ -732,7 +737,7 @@ All identified issues during development were resolved:
 
 **Status:** ✅ **Successfully Deployed**
 
-**Live App URL:** https://heritage-housing-price-4311f0b65bc6.herokuapp.com/
+**Live App URL:** https://heritage-housing-price-7ed9ab08529f.herokuapp.com/
 
 **Deployment Steps Completed:**
 
@@ -760,8 +765,6 @@ All identified issues during development were resolved:
 **Deployment Configuration:**
 - Stack: Heroku-24
 - Python Version: 3.9.17
-- Region: United States
-- Slug Size: 499 MB (soft limit: 300 MB)
 - Status: Active and running
 
 **Access:** Available 24/7 at the live URL above
@@ -807,5 +810,3 @@ All identified issues during development were resolved:
 - Project stakeholders (Lydia Doe - fictional client)
 
 ---
-
-**Last Updated:** November 25, 2025
