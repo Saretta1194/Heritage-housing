@@ -4,7 +4,7 @@
 
 This project builds a machine learning application to predict house prices in Ames, Iowa. The solution combines data analysis, feature engineering, and a trained Random Forest model deployed via a Streamlit web dashboard.
 
-**Live Demo:** https://heritage-housing-price-7ed9ab08529f.herokuapp.com/
+**Live Demo:** [https://heritage-housing-price-7ed9ab08529f.herokuapp.com/]
 
 ---
 
@@ -738,7 +738,7 @@ All identified issues during development were resolved:
 
 **Status:** ✅ **Successfully Deployed**
 
-**Live App URL:** https://heritage-housing-price-7ed9ab08529f.herokuapp.com/
+**Live App URL:** [https://heritage-housing-price-7ed9ab08529f.herokuapp.com/]
 
 **Deployment Steps Completed:**
 
@@ -780,32 +780,30 @@ All identified issues during development were resolved:
 ### Libraries & Frameworks
 - **pandas:** Data manipulation (McKinney et al.)
 - **scikit-learn:** Machine learning (Pedregosa et al.)
-- **Streamlit:** Web framework
-- **matplotlib/seaborn:** Visualizations
-- **joblib:** Model serialization
+- **Streamlit:** Web framework (interactive dashboards)
+- **matplotlib/seaborn:** Visualizations (statistical graphics)
+- **joblib:** Model serialization and persistence
 
 ### Course & Institution
 - **Course:** Diploma in Full Stack Software Development - Predictive Analytics
 - **Institution:** Code Institute
-- **Cohort:** November 2025
+- **Mentor Support:** Code Institute tutor team
 
 ### Project Template
 - **Template Repository:** Code Institute Heritage Housing Template
 - **Handbook:** Heritage Housing Issues Assessment Handbook
+- **Course Materials:** Python & ML modules, CRISP-DM methodology
 
 ### Resources & References
-- Code Institute Python & ML modules
-- scikit-learn documentation (https://scikit-learn.org)
-- Streamlit documentation (https://streamlit.io)
-- Python Data Science Handbook
+- Code Institute Python & Machine Learning modules
+- scikit-learn documentation: https://scikit-learn.org
+- Streamlit documentation: https://streamlit.io
+- Python Data Science Handbook (Jake VanderPlas)
+- Ensemble Methods & Random Forest best practices
 
----
-
-## Acknowledgments
-
-- Code Institute mentors and community support
-- Kaggle for the public housing dataset
+### Special Thanks
+- Code Institute community for guidance and support
 - Open-source contributors to pandas, scikit-learn, and Streamlit
-- Project stakeholders (Lydia Doe - fictional client)
+- Kaggle community for dataset and insights
 
 ---
