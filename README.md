@@ -21,8 +21,8 @@ This project builds a machine learning application to predict house prices in Am
 10. [Project Structure](#project-structure)
 11. [Installation & Setup](#installation--setup)
 12. [Unfixed Bugs](#unfixed-bugs)
-13. [Deployment](#deployment)
-14. [Credits](#credits)
+14. [Deployment](#deployment)
+15. [Credits](#credits)
 
 ---
 
@@ -197,7 +197,7 @@ This project builds a machine learning application to predict house prices in Am
 | | Feature Engineering | Label Encoding | Categorical encoding | |
 | | Model Optimization | GridSearchCV | 576 parameter combinations | |
 
-**Rationale:** 
+**Rationale:**
 - **Regression chosen** because we predict continuous price values (not categories)
 - **Random Forest chosen** because it handles non-linear relationships, provides feature importance, and is robust to outliers
 - **GridSearchCV chosen** to find optimal hyperparameters and maximize R² score
@@ -547,7 +547,7 @@ plt.show()
 # Actual vs Predicted scatter plot
 fig, ax = plt.subplots(figsize=(10, 6))
 ax.scatter(y_test, y_pred_test, alpha=0.5, color='steelblue')
-ax.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 
+ax.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()],
         'r--', lw=2, label='Perfect Prediction')
 ax.set_xlabel('Actual Price ($)')
 ax.set_ylabel('Predicted Price ($)')
@@ -728,6 +728,7 @@ All identified issues during development were resolved:
 - ✅ Model predictions work correctly
 - ✅ Interactive widgets respond properly
 - ✅ Heroku deployment stable
+- ✅ Python file was checked through the CI Python Linter.
 
 ---
 
@@ -766,8 +767,6 @@ All identified issues during development were resolved:
 - Stack: Heroku-24
 - Python Version: 3.9.17
 - Status: Active and running
-
-**Access:** Available 24/7 at the live URL above
 
 ---
 
