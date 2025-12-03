@@ -4,7 +4,7 @@
 
 This project builds a machine learning application to predict house prices in Ames, Iowa. The solution combines data analysis, feature engineering, and a trained Random Forest model deployed via a Streamlit web dashboard.
 
-**Live Demo:** [https://heritage-housing-price-7ed9ab08529f.herokuapp.com/]
+**Live Demo:** The deployed project live link is [Here](https://heritage-housing-price-7ed9ab08529f.herokuapp.com/)
 
 ---
 
@@ -738,7 +738,7 @@ All identified issues during development were resolved:
 
 **Status:** ✅ **Successfully Deployed**
 
-**Live App URL:** [https://heritage-housing-price-7ed9ab08529f.herokuapp.com/]
+**Live App URL:** [Live](https://heritage-housing-price-7ed9ab08529f.herokuapp.com/)
 
 **Deployment Steps Completed:**
 
